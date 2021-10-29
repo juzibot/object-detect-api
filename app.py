@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from io import BytesIO
 import base64
-import asyncio
 import uvicorn
 import object_detect
 from starlette.requests import Request
@@ -9,11 +8,9 @@ from starlette.requests import Request
 app = FastAPI()
 
 
-@app.get("/test/")
-async def test(req: Request):
-    print('hello')
-    print(req)
-
+@app.get('/')
+async def root():
+    return {1: 1}
 
 @app.post("/api/object-detect")
 async def detect(request: Request):

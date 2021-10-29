@@ -1,3 +1,4 @@
-fastapi
-object-detect
-uvicorn
+uvicorn==0.15.*
+object_detect==0.0.5
+starlette==0.16.*
+fastapi==0.70.*
