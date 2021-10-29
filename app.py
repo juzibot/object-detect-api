@@ -8,24 +8,31 @@ from starlette.requests import Request
 
 app = FastAPI()
 
+
 @app.get("/test/")
 async def test(req: Request):
     print('hello')
     print(req)
 
-@app.get("/object-detect/")
+
+@app.post("/api/object-detect")
 async def detect(request: Request):
     data = await request.json()
-    b64code = data['b64code']
+    b64code = data['image']
     if b64code:
         img = BytesIO(base64.b64decode(b64code))
         pred = object_detect.predict(img)
         for item in pred:
             item['score'] = float(item['score'])
-        return pred
+        return {
+            'ok': True,
+            'data': pred
+        }
     else:
-        return None
+        return {
+            'ok': False,
+            'data': None
+        }
 
 if __name__ == '__main__':
-    uvicorn.run('app:app', host='127.0.0.1', port=3000, log_level='info')
-
+    uvicorn.run('app:app', host='0.0.0.0', port=8000, log_level='info')
