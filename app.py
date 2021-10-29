@@ -19,11 +19,10 @@ async def detect(request: Request):
     if b64code:
         img = BytesIO(base64.b64decode(b64code))
         pred = object_detect.predict(img)
-        for item in pred:
-            item['score'] = float(item['score'])
+        res = set(i['cls'] for i in pred)
         return {
             'ok': True,
-            'data': pred
+            'data': list(res)
         }
     else:
         return {
